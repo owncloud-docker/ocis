@@ -1,0 +1,13 @@
+name: Lint PR title
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  lint:
+    uses: owncloud-docker/ubuntu/.github/workflows/lint-pr-title.yml@master
+    secrets: inherit

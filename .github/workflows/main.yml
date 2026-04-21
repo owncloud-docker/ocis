@@ -1,0 +1,48 @@
+name: Docker CI
+
+on:
+  push:
+    branches: [master]
+    tags: ["*"]
+  pull_request:
+  schedule:
+    - cron: 0 0 * * 0
+
+jobs:
+  lint:
+    uses: owncloud-docker/ubuntu/.github/workflows/lint-editorconfig.yml@master
+
+  build:
+    needs: lint
+    uses: owncloud-docker/ubuntu/.github/workflows/docker-build.yml@master
+    with:
+      docker-repo-name: owncloud/${{ github.event.repository.name }}
+      docker-tag: ${{ matrix.release.version }}
+      docker-context: ${{ matrix.release.dir }}
+      docker-file: ${{ matrix.release.dir }}/Dockerfile.multiarch
+      docker-hub-username: ${{ vars.DOCKERHUB_USERNAME }}
+      docker-build-args: |
+        VERSION=${{ matrix.release.version }}
+        REVISION=${{ github.sha }}
+      push: ${{ github.ref == 'refs/heads/master' }}
+    secrets:
+      docker-hub-password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    strategy:
+      matrix:
+        release:
+          - version: "7.3.2"
+            dir: "v7"
+          - version: "8.0.1"
+            dir: "v8"
+
+  update-docker-hub-description:
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    uses: owncloud-docker/ubuntu/.github/workflows/docker-hub-desc.yml@master
+    with:
+      docker-repo-name: owncloud/${{ github.event.repository.name }}
+      docker-repo-description: ownCloud Infinite Scale
+      docker-hub-username: ${{ vars.DOCKERHUB_USERNAME }}
+    secrets:
+      docker-hub-password: ${{ secrets.DOCKERHUB_TOKEN }}
