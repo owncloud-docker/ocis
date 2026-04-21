@@ -14,12 +14,6 @@ RUN BASE_URL="https://github.com/owncloud/ocis/releases/download/v${VERSION}" &&
 
 FROM docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659
 
-ARG VERSION=""
-ARG REVISION=""
-
-RUN apk add --no-cache attr bash ca-certificates curl inotify-tools libc6-compat mailcap tree vips patch && \
-  echo 'hosts: files dns' >| /etc/nsswitch.conf
-
 LABEL maintainer="ownCloud GmbH <devops@owncloud.com>" \
   org.opencontainers.image.title="ownCloud Infinite Scale" \
   org.opencontainers.image.vendor="ownCloud GmbH" \
@@ -32,6 +26,12 @@ LABEL maintainer="ownCloud GmbH <devops@owncloud.com>" \
   org.opencontainers.image.version="${VERSION}" \
   org.opencontainers.image.revision="${REVISION}"
 
+ARG VERSION=""
+ARG REVISION=""
+
+RUN apk add --no-cache attr bash ca-certificates curl inotify-tools libc6-compat mailcap tree vips patch && \
+  echo 'hosts: files dns' >| /etc/nsswitch.conf
+
 RUN addgroup -g 1000 -S ocis-group && \
   adduser -S --ingroup ocis-group --uid 1000 ocis-user --home /var/lib/ocis
 
@@ -41,6 +41,8 @@ RUN mkdir -p /var/lib/ocis && \
   mkdir -p /etc/ocis && \
   chown -R ocis-user:ocis-group /etc/ocis && \
   chmod -R 751 /etc/ocis
+
+COPY --from=downloader /usr/bin/ocis /usr/bin/ocis
 
 VOLUME [ "/var/lib/ocis", "/etc/ocis" ]
 
@@ -53,5 +55,3 @@ EXPOSE 9200/tcp
 ENTRYPOINT ["/usr/bin/ocis"]
 
 CMD ["server"]
-
-COPY --from=downloader /usr/bin/ocis /usr/bin/ocis
