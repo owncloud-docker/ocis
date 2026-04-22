@@ -24,6 +24,7 @@ jobs:
       docker-build-args: |
         VERSION=${{ matrix.release.version }}
         REVISION=${{ github.sha }}
+      trivy-ignore-files: .trivyignore,${{ matrix.release.dir }}/.trivyignore
       push: ${{ github.ref == 'refs/heads/master' }}
     secrets:
       docker-hub-password: ${{ secrets.DOCKERHUB_TOKEN }}

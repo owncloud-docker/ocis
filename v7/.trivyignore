@@ -1,0 +1,35 @@
+# CVEs in the oCIS 7.3.2 binary (Go dependencies). Unfixable by this repo — requires upstream owncloud/ocis release.
+
+# github.com/go-acme/lego/v4 v4.25.2
+CVE-2026-40611 exp:2026-10-22
+
+# github.com/go-jose/go-jose/v3 v3.0.4
+CVE-2026-34986 exp:2026-10-22
+
+# github.com/nats-io/nats-server/v2 v2.12.0
+CVE-2026-27889 exp:2026-10-22
+CVE-2026-29785 exp:2026-10-22
+CVE-2026-33216 exp:2026-10-22
+CVE-2026-33217 exp:2026-10-22
+CVE-2026-33218 exp:2026-10-22
+CVE-2026-33247 exp:2026-10-22
+
+# github.com/russellhaering/goxmldsig v1.5.0
+CVE-2026-33487 exp:2026-10-22
+
+# go.opentelemetry.io/otel/sdk v1.38.0
+CVE-2026-24051 exp:2026-10-22
+CVE-2026-39883 exp:2026-10-22
+
+# google.golang.org/grpc v1.75.1
+CVE-2026-33186 exp:2026-10-22
+
+# stdlib v1.24.10
+CVE-2025-68121 exp:2026-10-22
+CVE-2025-61726 exp:2026-10-22
+CVE-2025-61728 exp:2026-10-22
+CVE-2025-61729 exp:2026-10-22
+CVE-2026-25679 exp:2026-10-22
+CVE-2026-32280 exp:2026-10-22
+CVE-2026-32281 exp:2026-10-22
+CVE-2026-32283 exp:2026-10-22
