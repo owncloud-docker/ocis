@@ -1,4 +1,29 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>owncloud-ops/renovate-presets:docker"]
+  "extends": ["github>owncloud-ops/renovate-presets:docker"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["^\\.github/workflows/main\\.yml$"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) versioning=(?<versioning>\\S+)\\n\\s+- version: \"(?<currentValue>[^\"]+)\""
+      ]
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Constrain ocis v7 matrix entry to 7.x only",
+      "matchDatasources": ["github-releases"],
+      "matchPackageNames": ["owncloud/ocis"],
+      "matchCurrentVersion": "^7",
+      "allowedVersions": "^7"
+    },
+    {
+      "description": "Constrain ocis v8 matrix entry to 8.x only",
+      "matchDatasources": ["github-releases"],
+      "matchPackageNames": ["owncloud/ocis"],
+      "matchCurrentVersion": "^8",
+      "allowedVersions": "^8"
+    }
+  ]
 }
