@@ -25,6 +25,7 @@ jobs:
         VERSION=${{ matrix.release.version }}
         REVISION=${{ github.sha }}
       trivy-ignore-files: .trivyignore,${{ matrix.release.dir }}/.trivyignore
+      docker-extra-tags: ${{ matrix.release.extra-tags }}
       push: false
     secrets:
       docker-hub-password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -34,8 +35,14 @@ jobs:
         release:
           - version: "7.3.2"
             dir: "v7"
+            extra-tags: |
+              7.3
+              7
           - version: "8.0.1"
             dir: "v8"
+            extra-tags: |
+              8.0
+              8
 
   # update-docker-hub-description is disabled until this repo is authorized to publish
   # update-docker-hub-description:
