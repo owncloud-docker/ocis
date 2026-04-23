@@ -33,11 +33,13 @@ jobs:
     strategy:
       matrix:
         release:
+          # renovate: datasource=github-releases depName=owncloud/ocis versioning=semver
           - version: "7.3.2"
             dir: "v7"
             extra-tags: |
               7.3
               7
+          # renovate: datasource=github-releases depName=owncloud/ocis versioning=semver
           - version: "8.0.1"
             dir: "v8"
             extra-tags: |
