@@ -26,6 +26,12 @@ jobs:
         REVISION=${{ github.sha }}
       trivy-ignore-files: .trivyignore,${{ matrix.release.dir }}/.trivyignore
       docker-extra-tags: ${{ matrix.release.extra-tags }}
+      smoke-test-port: "9200"
+      smoke-test-url: "https://localhost:9200/health"
+      smoke-test-entrypoint-cmd: "ocis init || true; exec ocis server"
+      smoke-test-env: |
+        OCIS_INSECURE=true
+        OCIS_URL=https://localhost:9200
       push: false
     secrets:
       docker-hub-password: ${{ secrets.DOCKERHUB_TOKEN }}
