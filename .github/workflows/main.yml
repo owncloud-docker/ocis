@@ -43,6 +43,8 @@ jobs:
             extra-tags: |
               8.0
               8
+          - version: "8.0.2-dev.1"
+            dir: "v8"
 
   # update-docker-hub-description is disabled until this repo is authorized to publish
   # update-docker-hub-description:
