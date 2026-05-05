@@ -33,11 +33,6 @@ jobs:
     strategy:
       matrix:
         release:
-          - version: "7.3.2"
-            dir: "v7"
-            extra-tags: |
-              7.3
-              7
           - version: "8.0.1"
             dir: "v8"
             extra-tags: |
