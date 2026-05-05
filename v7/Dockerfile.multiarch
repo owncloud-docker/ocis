@@ -1,21 +1,43 @@
-FROM docker.io/alpine:3.23.4@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11 AS downloader
+FROM docker.io/alpine:3.23.4@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11 AS node-builder
+
+ARG VERSION="7.3.2"
+
+RUN apk add --no-cache nodejs npm curl git make
+
+RUN npm install -g pnpm@10.12.1
+
+RUN git clone --depth 1 --branch "v${VERSION}" https://github.com/owncloud/ocis.git /build
+
+WORKDIR /build/services/idp
+RUN pnpm install --frozen-lockfile
+RUN pnpm build
+RUN curl -fsSL https://raw.githubusercontent.com/owncloud/assets/main/favicon.ico \
+      -o assets/identifier/static/favicon.ico
+
+WORKDIR /build/services/web
+RUN make pull-assets
+
+
+FROM docker.io/alpine:3.23.4@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11 AS go-builder
 
 ARG VERSION="7.3.2"
 ARG TARGETARCH
 
-RUN apk add --no-cache curl
+RUN apk add --no-cache go gcc musl-dev libvips-dev curl-dev make git
 
-RUN BASE_URL="https://github.com/owncloud/ocis/releases/download/v${VERSION}" && \
-  curl -fsSL "${BASE_URL}/ocis-${VERSION}-linux-${TARGETARCH}" -o /usr/bin/ocis && \
-  curl -fsSL "${BASE_URL}/ocis-${VERSION}-linux-${TARGETARCH}.sha256" -o /tmp/ocis.sha256 && \
-  EXPECTED=$(awk '{print $1}' /tmp/ocis.sha256) && \
-  echo "${EXPECTED}  /usr/bin/ocis" | sha256sum -c - && \
-  chmod +x /usr/bin/ocis
+COPY --from=node-builder /build /build
+
+WORKDIR /build/ocis
+
+RUN CGO_ENABLED=1 ENABLE_VIPS=true \
+    make release-linux-docker-${TARGETARCH} VERSION=${VERSION}
+
 
 FROM docker.io/alpine:3.23.4@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11
 
 ARG VERSION=""
 ARG REVISION=""
+ARG TARGETARCH
 
 LABEL maintainer="ownCloud GmbH <devops@owncloud.com>" \
   org.opencontainers.image.title="ownCloud Infinite Scale" \
@@ -42,7 +64,7 @@ RUN mkdir -p /var/lib/ocis && \
   chown -R ocis-user:ocis-group /etc/ocis && \
   chmod -R 751 /etc/ocis
 
-COPY --from=downloader /usr/bin/ocis /usr/bin/ocis
+COPY --from=go-builder /build/ocis/dist/binaries/ocis-linux-${TARGETARCH} /usr/bin/ocis
 
 VOLUME [ "/var/lib/ocis", "/etc/ocis" ]
 
