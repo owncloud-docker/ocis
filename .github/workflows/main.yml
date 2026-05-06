@@ -24,6 +24,8 @@ jobs:
       docker-build-args: |
         VERSION=${{ matrix.release.version }}
         REVISION=${{ github.sha }}
+      docker-cache-from: type=gha
+      docker-cache-to: type=gha,mode=max
       trivy-ignore-files: .trivyignore,${{ matrix.release.dir }}/.trivyignore
       docker-extra-tags: ${{ matrix.release.extra-tags }}
       push: false
