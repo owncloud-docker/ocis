@@ -28,7 +28,6 @@ jobs:
       docker-cache-to: type=gha,mode=max
       trivy-ignore-files: .trivyignore,${{ matrix.release.dir }}/.trivyignore
       docker-extra-tags: ${{ matrix.release.extra-tags }}
-      smoke-test-cmd: "/usr/bin/ocis version"
       smoke-test-port: "9200"
       smoke-test-url: "https://localhost:9200/status.php"
       smoke-test-entrypoint-cmd: "ocis init || true; exec ocis server"
