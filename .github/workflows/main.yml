@@ -33,7 +33,7 @@ jobs:
       smoke-test-url: "https://localhost:9200/status.php"
       smoke-test-entrypoint-cmd: "ocis init || true; exec ocis server"
       smoke-test-env: "OCIS_INSECURE=true"
-      smoke-test-version-jq: ".versionstring"
+      smoke-test-version-jq: ".productversion"
       push: false
     secrets:
       docker-hub-password: ${{ secrets.DOCKERHUB_TOKEN }}
