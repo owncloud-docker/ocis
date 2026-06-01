@@ -40,6 +40,11 @@ jobs:
     strategy:
       matrix:
         release:
+          - version: "8.1.0-rc.1"
+            dir: "v8"
+            extra-tags: |
+              8.1
+              8
           - version: "8.0.4"
             dir: "v8"
             extra-tags: |
