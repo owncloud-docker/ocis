@@ -40,7 +40,7 @@ jobs:
     strategy:
       matrix:
         release:
-          - version: "8.0.1"
+          - version: "8.0.4"
             dir: "v8"
             extra-tags: |
               8.0
