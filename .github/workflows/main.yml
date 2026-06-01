@@ -24,8 +24,15 @@ jobs:
       docker-build-args: |
         VERSION=${{ matrix.release.version }}
         REVISION=${{ github.sha }}
+      docker-cache-from: type=gha
+      docker-cache-to: type=gha,mode=max
       trivy-ignore-files: .trivyignore,${{ matrix.release.dir }}/.trivyignore
       docker-extra-tags: ${{ matrix.release.extra-tags }}
+      smoke-test-port: "9200"
+      smoke-test-url: "https://localhost:9200/status.php"
+      smoke-test-entrypoint-cmd: "ocis init || true; exec ocis server"
+      smoke-test-env: "OCIS_INSECURE=true"
+      smoke-test-version-jq: ".productversion"
       push: false
     secrets:
       docker-hub-password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -33,12 +40,12 @@ jobs:
     strategy:
       matrix:
         release:
-          - version: "7.3.2"
-            dir: "v7"
+          - version: "8.1.0-rc.1"
+            dir: "v8"
             extra-tags: |
-              7.3
-              7
-          - version: "8.0.1"
+              8.1
+              8
+          - version: "8.0.4"
             dir: "v8"
             extra-tags: |
               8.0

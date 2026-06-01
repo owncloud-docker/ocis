@@ -19,6 +19,7 @@ CVE-2026-33487 exp:2026-10-22
 
 # go.opentelemetry.io/otel/sdk v1.39.0
 CVE-2026-24051 exp:2026-10-22
+CVE-2026-29181 exp:2026-10-22
 CVE-2026-39883 exp:2026-10-22
 
 # google.golang.org/grpc v1.78.0
