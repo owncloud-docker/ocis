@@ -40,6 +40,7 @@ jobs:
       docker-hub-username: ${{ vars.DOCKERHUB_USERNAME }}
       docker-build-args: |
         GIT_REF=master
+        GIT_SHA=${{ needs.prepare.outputs.full-sha }}
         VERSION=master-${{ needs.prepare.outputs.sha }}
         REVISION=${{ needs.prepare.outputs.full-sha }}
       docker-extra-tags: |
