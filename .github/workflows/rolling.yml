@@ -1,0 +1,55 @@
+name: Docker Rolling
+
+on:
+  schedule:
+    - cron: 0 2 * * *
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - v8/Dockerfile.multiarch
+      - .github/workflows/rolling.yml
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.resolve.outputs.sha }}
+      date: ${{ steps.resolve.outputs.date }}
+    steps:
+      - name: Resolve oCIS master HEAD and date stamp
+        id: resolve
+        run: |
+          FULL_SHA=$(git ls-remote https://github.com/owncloud/ocis.git refs/heads/master | cut -f1)
+          if [ -z "${FULL_SHA}" ]; then
+            echo "Failed to resolve owncloud/ocis master HEAD"
+            exit 1
+          fi
+          echo "sha=${FULL_SHA:0:7}" >> "$GITHUB_OUTPUT"
+          echo "date=$(date -u +%Y%m%d)" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: prepare
+    uses: owncloud-docker/ubuntu/.github/workflows/docker-build.yml@master
+    with:
+      docker-repo-name: owncloud/ocis-rolling
+      docker-tag: latest
+      docker-context: v8
+      docker-file: v8/Dockerfile.multiarch
+      docker-hub-username: ${{ vars.DOCKERHUB_USERNAME }}
+      docker-build-args: |
+        GIT_REF=master
+        VERSION=master-${{ needs.prepare.outputs.sha }}
+        REVISION=${{ needs.prepare.outputs.sha }}
+      docker-extra-tags: |
+        ${{ needs.prepare.outputs.date }}
+        sha-${{ needs.prepare.outputs.sha }}
+      docker-cache-from: type=gha
+      docker-cache-to: type=gha,mode=max
+      trivy-ignore-files: .trivyignore,v8/.trivyignore
+      smoke-test-port: "9200"
+      smoke-test-url: "https://localhost:9200/status.php"
+      smoke-test-entrypoint-cmd: "ocis init || true; exec ocis server"
+      smoke-test-env: "OCIS_INSECURE=true"
+      push: ${{ github.event_name != 'pull_request' }}
+    secrets:
+      docker-hub-password: ${{ secrets.DOCKERHUB_TOKEN }}
