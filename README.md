@@ -56,6 +56,7 @@ docker pull owncloud/ocis-rolling:latest
 | ARG | Default | Purpose |
 |-----|---------|---------|
 | `VERSION` | version-specific | oCIS git tag to clone and build (without `v` prefix, e.g. `8.0.1`) |
+| `GIT_REF` | `v${VERSION}` | Git ref (branch or tag) to clone and build; overrides the default tag form to build a branch such as `master` |
 | `REVISION` | `""` | Git SHA embedded in OCI labels |
 | `TARGETARCH` | set by buildx | Target architecture (`amd64`, `arm64`) |
 

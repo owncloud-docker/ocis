@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       sha: ${{ steps.resolve.outputs.sha }}
+      full-sha: ${{ steps.resolve.outputs.full-sha }}
       date: ${{ steps.resolve.outputs.date }}
     steps:
       - name: Resolve oCIS master HEAD and date stamp
@@ -25,6 +26,7 @@ jobs:
             exit 1
           fi
           echo "sha=${FULL_SHA:0:7}" >> "$GITHUB_OUTPUT"
+          echo "full-sha=${FULL_SHA}" >> "$GITHUB_OUTPUT"
           echo "date=$(date -u +%Y%m%d)" >> "$GITHUB_OUTPUT"
 
   build:
@@ -39,7 +41,7 @@ jobs:
       docker-build-args: |
         GIT_REF=master
         VERSION=master-${{ needs.prepare.outputs.sha }}
-        REVISION=${{ needs.prepare.outputs.sha }}
+        REVISION=${{ needs.prepare.outputs.full-sha }}
       docker-extra-tags: |
         ${{ needs.prepare.outputs.date }}
         sha-${{ needs.prepare.outputs.sha }}
