@@ -2,12 +2,21 @@ FROM docker.io/alpine:3.23.4@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145
 
 ARG VERSION="8.0.1"
 ARG GIT_REF="v${VERSION}"
+# Optional exact commit to build. When set (rolling builds), it pins the clone to
+# that commit and, because it is referenced in the clone layer below, busts the
+# build cache whenever upstream master moves so the rolling image stays fresh.
+# Leave empty (release builds) to clone GIT_REF as-is.
+ARG GIT_SHA=""
 
 RUN apk add --no-cache bash nodejs npm curl git make
 
 RUN npm install -g pnpm@10.28.1
 
-RUN git clone --depth 1 --branch "${GIT_REF}" https://github.com/owncloud/ocis.git /build
+RUN git clone --depth 1 --branch "${GIT_REF}" https://github.com/owncloud/ocis.git /build && \
+    if [ -n "${GIT_SHA}" ]; then \
+      git -C /build fetch --depth 1 origin "${GIT_SHA}" && \
+      git -C /build checkout --detach FETCH_HEAD; \
+    fi
 
 WORKDIR /build/services/idp
 RUN pnpm install --frozen-lockfile
