@@ -19,6 +19,25 @@ docker run --rm \
 |-----|-------------|
 | `8.0.1` | 8.0.1 |
 
+## Rolling Image
+
+A daily build tracking the **unreleased `master` branch** of oCIS is published to
+[`owncloud/ocis-rolling`](https://hub.docker.com/r/owncloud/ocis-rolling). It is built
+every night at 02:00 UTC from the latest `master` commit.
+
+> **Unstable:** the rolling image contains unreleased code and is intended for testing
+> against upcoming oCIS changes — not for production.
+
+| Tag | Meaning |
+|-----|---------|
+| `latest` | The most recent daily build |
+| `YYYYMMDD` | Immutable build for a specific day (e.g. `20260602`) |
+| `sha-<short>` | Build of a specific oCIS `master` commit (e.g. `sha-a1b2c3d`) |
+
+```bash
+docker pull owncloud/ocis-rolling:latest
+```
+
 ## Volumes
 
 | Path | Purpose |
@@ -37,6 +56,7 @@ docker run --rm \
 | ARG | Default | Purpose |
 |-----|---------|---------|
 | `VERSION` | version-specific | oCIS git tag to clone and build (without `v` prefix, e.g. `8.0.1`) |
+| `GIT_REF` | `v${VERSION}` | Git ref (branch or tag) to clone and build; overrides the default tag form to build a branch such as `master` |
 | `REVISION` | `""` | Git SHA embedded in OCI labels |
 | `TARGETARCH` | set by buildx | Target architecture (`amd64`, `arm64`) |
 
