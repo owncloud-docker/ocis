@@ -14,7 +14,7 @@ jobs:
 
   build:
     needs: lint
-    uses: owncloud-docker/ubuntu/.github/workflows/docker-build.yml@master
+    uses: owncloud-docker/ubuntu/.github/workflows/docker-build-native.yml@master
     with:
       docker-repo-name: owncloud/${{ github.event.repository.name }}
       docker-tag: ${{ matrix.release.version }}
