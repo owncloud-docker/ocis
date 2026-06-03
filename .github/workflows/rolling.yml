@@ -31,7 +31,7 @@ jobs:
 
   build:
     needs: prepare
-    uses: owncloud-docker/ubuntu/.github/workflows/docker-build.yml@master
+    uses: owncloud-docker/ubuntu/.github/workflows/docker-build-native.yml@master
     with:
       docker-repo-name: owncloud/ocis-rolling
       docker-tag: latest
