@@ -69,7 +69,7 @@ The image is built entirely from source via a three-stage Dockerfile:
 
 **`go-builder`** — compiles the oCIS binary with CGO and libvips enabled using the upstream Makefile target `release-linux-docker-${TARGETARCH}`. Outputs to `dist/binaries/ocis-linux-${TARGETARCH}`.
 
-**Runtime** — minimal Alpine image with the binary copied from `go-builder`.
+**Runtime** — minimal Alpine image with the binary copied from `go-builder`. The stage runs `apk upgrade` to refresh all installed OS packages to the latest available Alpine patch releases at build time, so security fixes are picked up immediately rather than waiting for a base-image tag bump.
 
 To build locally:
 
