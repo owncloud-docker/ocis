@@ -65,7 +65,7 @@ docker pull owncloud/ocis-rolling:latest
 
 The image is built entirely from source via a three-stage Dockerfile:
 
-**`node-builder`** — clones the oCIS git repository at `v${VERSION}`, builds the IDP React frontend (`pnpm build`) and downloads the web frontend assets (`make pull-assets`). Both are required at compile time because `services/idp` and `services/web` use `//go:embed`.
+**`node-builder`** — clones the oCIS git repository at `v${VERSION}`, builds the IDP React frontend (`pnpm build`) and downloads the web frontend assets (`make pull-assets`). Both are required at compile time because `services/idp` and `services/web` use `//go:embed`. The IDP `pnpm` build runs only when `services/idp/package.json` is present; newer oCIS `master` ("no-npm") commits the identifier assets directly and has no `package.json`, so the step is skipped automatically.
 
 **`go-builder`** — compiles the oCIS binary with CGO and libvips enabled using the upstream Makefile target `release-linux-docker-${TARGETARCH}`. Outputs to `dist/binaries/ocis-linux-${TARGETARCH}`.
 
