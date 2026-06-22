@@ -18,11 +18,19 @@ RUN git clone --depth 1 --branch "${GIT_REF}" https://github.com/owncloud/ocis.g
       git -C /build checkout --detach FETCH_HEAD; \
     fi
 
+# Build the IDP React frontend only when the service still ships a package.json.
+# Upstream commit da7ef6050 ("service/idp no-npm") dropped the npm build and now
+# commits the identifier assets directly, so master builds have no package.json
+# and must skip pnpm. Release tags (e.g. v8.0.1) still require the pnpm build.
 WORKDIR /build/services/idp
-RUN pnpm install --frozen-lockfile
-RUN pnpm build
-RUN curl -fsSL https://raw.githubusercontent.com/owncloud/assets/main/favicon.ico \
-      -o assets/identifier/static/favicon.ico
+RUN if [ -f package.json ]; then \
+      pnpm install --frozen-lockfile && \
+      pnpm build && \
+      curl -fsSL https://raw.githubusercontent.com/owncloud/assets/main/favicon.ico \
+        -o assets/identifier/static/favicon.ico; \
+    else \
+      echo "services/idp has no package.json (no-npm upstream layout); skipping pnpm build"; \
+    fi
 
 WORKDIR /build/services/web
 RUN make pull-assets
