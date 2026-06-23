@@ -36,7 +36,7 @@ WORKDIR /build/services/web
 RUN make pull-assets
 
 
-FROM docker.io/golang:1.25.11-alpine3.23@sha256:ba6ba81bf21dfcccdb8c9832c5f09d775cd19a6ed1b323b3220949361958ca30 AS go-builder
+FROM docker.io/golang:1.25.11-alpine3.23@sha256:60e626bbde32def8694687d03536ea4341b19e5f068e9a630225a1dfbd0505c9 AS go-builder
 
 ARG VERSION="8.0.1"
 ARG TARGETARCH
