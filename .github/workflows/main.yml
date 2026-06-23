@@ -12,8 +12,17 @@ jobs:
   lint:
     uses: owncloud-docker/ubuntu/.github/workflows/lint-editorconfig.yml@master
 
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      date: ${{ steps.resolve.outputs.date }}
+    steps:
+      - name: Resolve date stamp
+        id: resolve
+        run: echo "date=$(date -u +%Y%m%d)" >> "$GITHUB_OUTPUT"
+
   build:
-    needs: lint
+    needs: [lint, prepare]
     uses: owncloud-docker/ubuntu/.github/workflows/docker-build-native.yml@master
     with:
       docker-repo-name: owncloud/${{ github.event.repository.name }}
@@ -27,38 +36,34 @@ jobs:
       docker-cache-from: type=gha
       docker-cache-to: type=gha,mode=max
       trivy-ignore-files: .trivyignore,${{ matrix.release.dir }}/.trivyignore
-      docker-extra-tags: ${{ matrix.release.extra-tags }}
+      docker-extra-tags: |
+        ${{ matrix.release.extra-tags }}
+        ${{ matrix.release.version }}-${{ needs.prepare.outputs.date }}
       smoke-test-port: "9200"
       smoke-test-url: "https://localhost:9200/status.php"
       smoke-test-entrypoint-cmd: "ocis init || true; exec ocis server"
       smoke-test-env: "OCIS_INSECURE=true"
       smoke-test-version-jq: ".productversion"
-      push: false
+      push: ${{ github.event_name != 'pull_request' }}
     secrets:
       docker-hub-password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     strategy:
       matrix:
         release:
-          - version: "8.1.0-rc.1"
-            dir: "v8"
-            extra-tags: |
-              8.1
-              8
-          - version: "8.0.4"
+          - version: "8.0.5"
             dir: "v8"
             extra-tags: |
               8.0
               8
 
-  # update-docker-hub-description is disabled until this repo is authorized to publish
-  # update-docker-hub-description:
-  #   needs: build
-  #   if: github.ref == 'refs/heads/master'
-  #   uses: owncloud-docker/ubuntu/.github/workflows/docker-hub-desc.yml@master
-  #   with:
-  #     docker-repo-name: owncloud/${{ github.event.repository.name }}
-  #     docker-repo-description: ownCloud Infinite Scale
-  #     docker-hub-username: ${{ vars.DOCKERHUB_USERNAME }}
-  #   secrets:
-  #     docker-hub-password: ${{ secrets.DOCKERHUB_TOKEN }}
+  update-docker-hub-description:
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    uses: owncloud-docker/ubuntu/.github/workflows/docker-hub-desc.yml@master
+    with:
+      docker-repo-name: owncloud/${{ github.event.repository.name }}
+      docker-repo-description: ownCloud Infinite Scale
+      docker-hub-username: ${{ vars.DOCKERHUB_USERNAME }}
+    secrets:
+      docker-hub-password: ${{ secrets.DOCKERHUB_TOKEN }}
