@@ -1,4 +1,4 @@
-FROM docker.io/alpine:3.24.1@sha256:bec4ccd3817e7c824eb0388971a0b83fab111d586285511ba0266b77e8dc65a9 AS node-builder
+FROM docker.io/alpine:3.24.1@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b AS node-builder
 
 ARG VERSION="8.0.1"
 ARG GIT_REF="v${VERSION}"
@@ -36,7 +36,7 @@ WORKDIR /build/services/web
 RUN make pull-assets
 
 
-FROM docker.io/golang:1.25.11-alpine3.23@sha256:c05ba4b73604069d376c4f41346b05374335b5ca0c46fb6dfede5a59f5196931 AS go-builder
+FROM docker.io/golang:1.25.11-alpine3.23@sha256:ba6ba81bf21dfcccdb8c9832c5f09d775cd19a6ed1b323b3220949361958ca30 AS go-builder
 
 ARG VERSION="8.0.1"
 ARG TARGETARCH
@@ -51,7 +51,7 @@ RUN CGO_ENABLED=1 ENABLE_VIPS=true \
     make release-linux-docker-${TARGETARCH} VERSION=${VERSION}
 
 
-FROM docker.io/alpine:3.24.1@sha256:bec4ccd3817e7c824eb0388971a0b83fab111d586285511ba0266b77e8dc65a9
+FROM docker.io/alpine:3.24.1@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b
 
 ARG VERSION=""
 ARG REVISION=""
