@@ -51,11 +51,6 @@ jobs:
     strategy:
       matrix:
         release:
-          # Release candidates publish only their exact version tag — never the
-          # floating 8.1 / 8 tags, which must track the latest stable release.
-          - version: "8.1.0-rc.1"
-            dir: "v8"
-            extra-tags: ""
           - version: "8.0.5"
             dir: "v8"
             extra-tags: |
