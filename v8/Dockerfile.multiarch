@@ -22,6 +22,17 @@ RUN git clone --depth 1 --branch "${GIT_REF}" https://github.com/owncloud/ocis.g
 # Upstream commit da7ef6050 ("service/idp no-npm") dropped the npm build and now
 # commits the identifier assets directly, so master builds have no package.json
 # and must skip pnpm. Release tags (e.g. v8.0.1) still require the pnpm build.
+#
+# The no-npm rewrite ships a static theme.css that references a favicon plus
+# media assets (background image + Inter web fonts) which it never committed and
+# provides no build step to generate (upstream bug OCISDEV-696 / da7ef6050). The
+# files are embedded into the binary via `//go:embed assets/*`, so when they are
+# absent the login page renders without its icon, background, and font. We supply
+# them here for the no-npm layout: the favicon from owncloud/assets (matching the
+# pnpm path above) and the media files recovered from the pre-no-npm parent commit
+# at the exact (webpack-hashed) names theme.css references. Remove this workaround
+# once upstream ships the media — see https://github.com/owncloud/ocis sources.
+ARG IDP_MEDIA_REF="02395858176dba538a952b84ba23021567b02be8"
 WORKDIR /build/services/idp
 RUN if [ -f package.json ]; then \
       pnpm install --frozen-lockfile && \
@@ -29,7 +40,17 @@ RUN if [ -f package.json ]; then \
       curl -fsSL https://raw.githubusercontent.com/owncloud/assets/main/favicon.ico \
         -o assets/identifier/static/favicon.ico; \
     else \
-      echo "services/idp has no package.json (no-npm upstream layout); skipping pnpm build"; \
+      echo "services/idp has no package.json (no-npm upstream layout); skipping pnpm build" && \
+      mkdir -p assets/identifier/static/media && \
+      curl -fsSL https://raw.githubusercontent.com/owncloud/assets/main/favicon.ico \
+        -o assets/identifier/static/favicon.ico && \
+      base="https://raw.githubusercontent.com/owncloud/ocis/${IDP_MEDIA_REF}/services/idp" && \
+      curl -fsSL "${base}/src/images/background.jpg" \
+        -o assets/identifier/static/media/background.7296b9ab..jpg && \
+      curl -fsSL "${base}/src/fonts/inter.woff2" \
+        -o assets/identifier/static/media/inter.d5c51099..woff2 && \
+      curl -fsSL "${base}/src/fonts/inter.ttf" \
+        -o assets/identifier/static/media/inter.aadb65ac..ttf; \
     fi
 
 WORKDIR /build/services/web
