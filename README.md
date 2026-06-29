@@ -18,6 +18,7 @@ docker run --rm \
 | Tag | oCIS Version |
 |-----|-------------|
 | `8.0.5`, `8.0`, `8` | 8.0.5 (latest stable) |
+| `8.1.0-rc.2` | 8.1.0-rc.2 (release candidate — exact tag only, no floating tags) |
 | `<version>-YYYYMMDD` | Immutable per-build tag (e.g. `8.0.5-20260623`) |
 
 ## Rolling Image
