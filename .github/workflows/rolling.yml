@@ -38,10 +38,16 @@ jobs:
       docker-context: v8
       docker-file: v8/Dockerfile.multiarch
       docker-hub-username: ${{ vars.DOCKERHUB_USERNAME }}
+      # VERSION is intentionally left empty. The oCIS Makefile parses VERSION as
+      # semver at runtime, so a non-semver value like "master-<sha>" makes
+      # `ocis version` report "0.0.0" (owncloud/ocis#12468). With VERSION empty
+      # the Dockerfile omits it from the make call, letting the build derive the
+      # version from the git short HEAD (e.g. "8.0.0+<sha>"). REVISION still
+      # carries the full master SHA for the image label.
       docker-build-args: |
         GIT_REF=master
         GIT_SHA=${{ needs.prepare.outputs.full-sha }}
-        VERSION=master-${{ needs.prepare.outputs.sha }}
+        VERSION=
         REVISION=${{ needs.prepare.outputs.full-sha }}
       docker-extra-tags: |
         ${{ needs.prepare.outputs.date }}

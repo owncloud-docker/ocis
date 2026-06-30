@@ -47,8 +47,16 @@ COPY --from=node-builder /build /build
 
 WORKDIR /build/ocis
 
+# Pass VERSION to the oCIS Makefile only when it is non-empty (release builds,
+# e.g. VERSION=8.0.5). The Makefile feeds VERSION verbatim into version.Tag,
+# which `ocis version` parses as semver at runtime — a non-semver value like
+# "master-<sha>" fails to parse and silently reports "0.0.0". For rolling builds
+# VERSION is empty, so we omit the argument entirely: the Makefile's
+# `ifndef VERSION` path then derives version.String from `git rev-parse --short
+# HEAD` and version.Tag falls back to upstream's LatestTag, yielding e.g.
+# "8.0.0+<sha>". This requires the cloned .git directory, copied in above.
 RUN CGO_ENABLED=1 ENABLE_VIPS=true \
-    make release-linux-docker-${TARGETARCH} VERSION=${VERSION}
+    make release-linux-docker-${TARGETARCH} ${VERSION:+VERSION=${VERSION}}
 
 
 FROM docker.io/alpine:3.24.1@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b
@@ -66,7 +74,7 @@ LABEL maintainer="ownCloud GmbH <devops@owncloud.com>" \
   org.opencontainers.image.documentation="https://github.com/owncloud/ocis" \
   org.opencontainers.image.url="https://hub.docker.com/r/owncloud/ocis" \
   org.opencontainers.image.source="https://github.com/owncloud/ocis" \
-  org.opencontainers.image.version="${VERSION}" \
+  org.opencontainers.image.version="${VERSION:-master-${REVISION}}" \
   org.opencontainers.image.revision="${REVISION}"
 
 RUN apk upgrade --no-cache && \
