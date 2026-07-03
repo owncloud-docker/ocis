@@ -4,6 +4,8 @@
 
 Docker image for [ownCloud Infinite Scale (oCIS)](https://github.com/owncloud/ocis) — a modern file-sync and share platform.
 
+> **Build & maintenance:** see [how these images are built, scanned, updated and published](https://github.com/owncloud-docker/.github/blob/master/docs/IMAGE-LIFECYCLE.md).
+
 ## Quick Start
 
 ```bash
