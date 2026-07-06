@@ -51,14 +51,15 @@ jobs:
     strategy:
       matrix:
         release:
-          - version: "8.1.0-rc.2"
+          - version: "8.1.0"
             dir: "v8"
-            extra-tags: ""
+            extra-tags: |
+              8.1
+              8
           - version: "8.0.5"
             dir: "v8"
             extra-tags: |
               8.0
-              8
 
   update-docker-hub-description:
     needs: build

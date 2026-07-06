@@ -12,16 +12,16 @@ Docker image for [ownCloud Infinite Scale (oCIS)](https://github.com/owncloud/oc
 docker run --rm \
   -p 9200:9200 \
   -e OCIS_INSECURE=true \
-  owncloud/ocis:8.0.1
+  owncloud/ocis:8.1.0
 ```
 
 ## Supported Tags
 
 | Tag | oCIS Version |
 |-----|-------------|
-| `8.0.5`, `8.0`, `8` | 8.0.5 (latest stable) |
-| `8.1.0-rc.2` | 8.1.0-rc.2 (release candidate — exact tag only, no floating tags) |
-| `<version>-YYYYMMDD` | Immutable per-build tag (e.g. `8.0.5-20260623`) |
+| `8.1.0`, `8.1`, `8` | 8.1.0 (latest stable) |
+| `8.0.5`, `8.0` | 8.0.5 |
+| `<version>-YYYYMMDD` | Immutable per-build tag (e.g. `8.1.0-20260703`) |
 
 ## Rolling Image
 
