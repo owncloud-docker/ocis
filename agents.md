@@ -17,14 +17,14 @@ multi-architecture and built via GitHub Actions.
 
 - `v8/` — oCIS 8.x build context
   - `v8/Dockerfile.multiarch` — three-stage build:
-    1. **node-builder** — clones oCIS at `v${VERSION}`, builds the IDP React
-       frontend (`pnpm build`) and pulls the web assets (`make pull-assets`);
-       both are needed at compile time due to `//go:embed`. The `pnpm` step is
-       skipped automatically on newer `master` ("no-npm") commits.
-    2. **go-builder** — compiles the oCIS binary with CGO + libvips via the
-       upstream `release-linux-docker-${TARGETARCH}` Makefile target.
-    3. **runtime** — minimal Alpine image; runs `apk upgrade` at build time so
-       OS security fixes are picked up immediately.
+    - **node-builder** — clones oCIS at `v${VERSION}`, builds the IDP React
+      frontend (`pnpm build`) and pulls the web assets (`make pull-assets`);
+      both are needed at compile time due to `//go:embed`. The `pnpm` step is
+      skipped automatically on newer `master` ("no-npm") commits.
+    - **go-builder** — compiles the oCIS binary with CGO + libvips via the
+      upstream `release-linux-docker-${TARGETARCH}` Makefile target.
+    - **runtime** — minimal Alpine image; runs `apk upgrade` at build time so
+      OS security fixes are picked up immediately.
   - `v8/.trivyignore` — accepted-CVE exclusions for the Trivy scan
 - `ubuntu-wf/` — helper directory
 - `docs/` — design/spec notes
