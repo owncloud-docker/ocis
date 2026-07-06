@@ -56,7 +56,6 @@ jobs:
             extra-tags: |
               8.1
               8
-              latest
           - version: "8.0.5"
             dir: "v8"
             extra-tags: |
