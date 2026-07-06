@@ -1,6 +1,8 @@
 # ownCloud Infinite Scale Docker Image
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/owncloud/ocis.svg)](https://hub.docker.com/r/owncloud/ocis)
+[![License: Apache-2.0](https://img.shields.io/github/license/owncloud-docker/ocis)](https://github.com/owncloud-docker/ocis/blob/master/LICENSE)
+[![ownCloud OSPO](https://img.shields.io/badge/OSPO-ownCloud-blue)](https://kiteworks.com/opensource)
 
 Docker image for [ownCloud Infinite Scale (oCIS)](https://github.com/owncloud/ocis) — a modern file-sync and share platform.
 
@@ -95,6 +97,62 @@ The GitHub Actions workflow (`.github/workflows/main.yml`) builds and validates 
 2. **Trivy scan** — scans for HIGH/CRITICAL CVEs; unfixable upstream CVEs are listed in `v8/.trivyignore`.
 3. **Smoke test** — starts the container, polls `https://localhost:9200/status.php` every 2s for up to 62s, and verifies the `.productversion` field in the JSON response matches the built tag. Uses `OCIS_INSECURE=true` to allow self-signed TLS on the test runner.
 4. **Publish** — pushes to Docker Hub with floating major/minor tags (on `master` only).
+
+## Community & Support
+
+- [ownCloud Website](https://owncloud.com)
+- [Community Discussions](https://github.com/orgs/owncloud/discussions)
+- [Matrix Chat](https://app.element.io/#/room/#owncloud:matrix.org)
+- [Documentation](https://doc.owncloud.com)
+- [Enterprise Support](https://owncloud.com/contact-us/)
+- [OSPO Home](https://kiteworks.com/opensource)
+
+See [SUPPORT.md](SUPPORT.md) for the full list of support channels.
+
+## Contributing
+
+We welcome contributions! Please read the [Contributing Guidelines](CONTRIBUTING.md)
+and our [Code of Conduct](CODE_OF_CONDUCT.md) before getting started.
+
+- **Rebase Early, Rebase Often!** We use a rebase workflow — rebase on the target
+  branch before submitting a PR.
+- **Signed commits**: All commits **must** be PGP/GPG signed and carry a DCO
+  `Signed-off-by` line (`git commit -S -s`).
+- **Conventional Commits**: PR titles must follow the
+  [Conventional Commits](https://www.conventionalcommits.org/) format — enforced
+  by CI.
+- **GitHub Actions Policy**: Workflows may only use actions owned by `owncloud`,
+  created by GitHub (`actions/*`), or verified in the GitHub Marketplace, pinned
+  to a full commit SHA.
+
+Note: bug reports and feature requests for oCIS itself belong upstream in
+[`owncloud/ocis`](https://github.com/owncloud/ocis) — this repository tracks only
+the Docker packaging.
+
+## Security
+
+**Do not open a public GitHub issue for security vulnerabilities.**
+
+Report vulnerabilities at **<https://security.owncloud.com>** — see [SECURITY.md](SECURITY.md).
+
+Bug bounty: [YesWeHack ownCloud Program](https://yeswehack.com/programs/owncloud-bug-bounty-program)
+
+## About the ownCloud OSPO
+
+The [Kiteworks Open Source Program Office](https://kiteworks.com/opensource), operating under
+the [ownCloud](https://owncloud.com) brand, launched on May 5, 2026, to steward the open source
+ecosystem around ownCloud's products. The OSPO ensures transparent governance, license compliance,
+community health, and sustainable collaboration between the open source community and
+[Kiteworks](https://www.kiteworks.com), which acquired ownCloud in 2023.
+
+- **OSPO Home**: <https://kiteworks.com/opensource>
+- **GitHub**: <https://github.com/owncloud>
+- **ownCloud**: <https://owncloud.com>
+
+For questions about the OSPO or licensing, contact ospo@kiteworks.com.
+
+This repository is licensed under the **Apache License 2.0**, which is the license
+the OSPO is adopting across the ecosystem. No relicensing is required.
 
 ## License
 
