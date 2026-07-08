@@ -32,8 +32,19 @@ RUN if [ -f package.json ]; then \
       echo "services/idp has no package.json (no-npm upstream layout); skipping pnpm build"; \
     fi
 
+# Build the web frontend from the in-tree pnpm workspace when present. Upstream
+# commit 6bad03d3 ("merge and relicense ownCloud Web into oCIS", #12491) imported
+# the web/ source in-tree and replaced the Makefile's `pull-assets` target (which
+# downloaded a web.tar.gz release tarball from owncloud/web) with `build-assets`,
+# which runs the pnpm build against /build/web. Release tags (e.g. v8.0.5, v8.1.0)
+# predate this: they still ship `pull-assets` and have no in-tree web/, so fall
+# back to it. This mirrors the services/idp no-npm handling above.
 WORKDIR /build/services/web
-RUN make pull-assets
+RUN if [ -f ../../web/package.json ]; then \
+      make build-assets; \
+    else \
+      make pull-assets; \
+    fi
 
 
 FROM docker.io/golang:1.26.4-alpine3.23@sha256:18b460dd17542c2ba43299a633cf6ebfc1115101509531471d7cfce1019af083 AS go-builder
