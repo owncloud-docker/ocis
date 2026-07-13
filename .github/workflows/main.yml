@@ -51,6 +51,9 @@ jobs:
     strategy:
       matrix:
         release:
+          - version: "8.2.0-rc.1"
+            dir: "v8"
+            extra-tags: ""
           - version: "8.1.0"
             dir: "v8"
             extra-tags: |
