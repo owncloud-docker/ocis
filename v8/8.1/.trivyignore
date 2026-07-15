@@ -1,0 +1,1 @@
+# CVEs baked into the oCIS 8.1 binary (Go dependencies). Unfixable by this repo — requires an upstream owncloud/ocis release. Empty at release time; add entries only when a CVE is later disclosed in this already-released line.
