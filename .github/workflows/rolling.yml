@@ -54,7 +54,7 @@ jobs:
         sha-${{ needs.prepare.outputs.sha }}
       docker-cache-from: type=gha
       docker-cache-to: type=gha,mode=max
-      trivy-ignore-files: .trivyignore,v8/.trivyignore
+      trivy-ignore-files: .trivyignore,v8/master/.trivyignore
       smoke-test-port: "9200"
       smoke-test-url: "https://localhost:9200/status.php"
       smoke-test-entrypoint-cmd: "ocis init || true; exec ocis server"
