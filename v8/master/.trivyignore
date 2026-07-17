@@ -1,0 +1,1 @@
+# CVEs baked into the oCIS rolling (master) binary (Go dependencies). Unfixable by this repo — requires an upstream owncloud/ocis fix. Empty by default; add entries only for CVEs surfaced in nightly master builds that cannot yet be fixed.
