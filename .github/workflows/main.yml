@@ -61,7 +61,7 @@ jobs:
             extra-tags: |
               8.1
               8
-          - version: "8.0.6"
+          - version: "8.0.7"
             dir: "v8"
             trivy-ignore: "v8/8.0/.trivyignore"
             extra-tags: |
