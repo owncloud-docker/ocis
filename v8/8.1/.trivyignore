@@ -1,1 +1,7 @@
 # CVEs baked into the oCIS 8.1 binary (Go dependencies). Unfixable by this repo — requires an upstream owncloud/ocis release. Empty at release time; add entries only when a CVE is later disclosed in this already-released line.
+
+# golang.org/x/text v0.38.0 (fixed in 0.39.0)
+CVE-2026-56852 exp:2026-10-31
+
+# google.golang.org/grpc v1.81.1 (fixed in 1.82.1)
+GHSA-hrxh-6v49-42gf exp:2026-10-31
