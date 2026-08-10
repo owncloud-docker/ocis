@@ -1,1 +1,4 @@
 # CVEs baked into the oCIS 8.0 binary (Go dependencies). Unfixable by this repo — requires an upstream owncloud/ocis release. Empty at release time; add entries only when a CVE is later disclosed in this already-released line.
+
+# github.com/go-git/go-git/v5 v5.19.1 (fixed in 5.19.2) — fixed in oCIS 8.2.0
+CVE-2026-71556 exp:2026-10-31

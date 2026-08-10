@@ -5,3 +5,6 @@ CVE-2026-56852 exp:2026-10-31
 
 # google.golang.org/grpc v1.81.1 (fixed in 1.82.1)
 GHSA-hrxh-6v49-42gf exp:2026-10-31
+
+# github.com/go-git/go-git/v5 v5.19.1 (fixed in 5.19.2) — fixed in oCIS 8.2.0
+CVE-2026-71556 exp:2026-10-31
