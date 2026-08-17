@@ -8,3 +8,7 @@ GHSA-hrxh-6v49-42gf exp:2026-10-31
 
 # github.com/go-git/go-git/v5 v5.19.1 (fixed in 5.19.2) — fixed in oCIS 8.2.0
 CVE-2026-71556 exp:2026-10-31
+
+# golang.org/x/net v0.55.0 (fixed in 0.56.0) — only the 8.1 line is affected;
+# 8.0.7 and 8.2.0 already ship v0.57.0
+CVE-2026-46600 exp:2026-10-31
