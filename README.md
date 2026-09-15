@@ -139,8 +139,6 @@ the Docker packaging.
 
 Report vulnerabilities at **<https://security.owncloud.com>** — see [SECURITY.md](SECURITY.md).
 
-Bug bounty: [YesWeHack ownCloud Program](https://yeswehack.com/programs/owncloud-bug-bounty-program)
-
 ## About the ownCloud OSPO
 
 The [Kiteworks Open Source Program Office](https://kiteworks.com/opensource), operating under
