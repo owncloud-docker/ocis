@@ -49,6 +49,10 @@ jobs:
       docker-hub-password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     strategy:
+      # Each release line is scanned against its own binary, so one line's Trivy
+      # findings say nothing about the others. With the default fail-fast the first
+      # red leg cancels the rest mid-build, hiding whether they would have passed.
+      fail-fast: false
       matrix:
         release:
           # `latest` must always stay on the newest stable release entry
