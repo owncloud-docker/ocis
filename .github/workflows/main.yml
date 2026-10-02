@@ -56,7 +56,7 @@ jobs:
       matrix:
         release:
           # `latest` must always stay on the newest stable release entry
-          - version: "8.2.0"
+          - version: "8.2.1"
             dir: "v8"
             trivy-ignore: "v8/8.2/.trivyignore"
             extra-tags: |
