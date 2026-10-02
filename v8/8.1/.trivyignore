@@ -12,3 +12,17 @@ CVE-2026-71556 exp:2026-10-31
 # golang.org/x/net v0.55.0 (fixed in 0.56.0) — only the 8.1 line is affected;
 # 8.0.7 and 8.2.0 already ship v0.57.0
 CVE-2026-46600 exp:2026-10-31
+
+# golang.org/x/crypto v0.52.0 (fixed in 0.55.0) — ssh: authentication bypass via
+# unenforced source-address restrictions. stable-8.1 already ships v0.55.0,
+# so this clears with the next 8.1.x release.
+CVE-2026-56854 exp:2026-10-31
+
+# golang.org/x/image v0.43.0 (fixed in 0.45.0) — vp8l: DoS via excessive memory
+# allocation. stable-8.1 already ships v0.45.0.
+CVE-2026-46603 exp:2026-10-31
+
+# google.golang.org/grpc v1.81.1 (fixed in 1.83.1 resp. 1.82.2/1.83.2) — DoS via
+# malformed RPC requests. stable-8.1 already ships v1.83.2.
+CVE-2026-84304 exp:2026-10-31
+CVE-2026-84445 exp:2026-10-31
