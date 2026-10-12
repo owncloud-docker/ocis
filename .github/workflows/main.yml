@@ -55,7 +55,13 @@ jobs:
       fail-fast: false
       matrix:
         release:
-          # `latest` must always stay on the newest stable release entry
+          # `latest` must always stay on the newest stable release entry.
+          # Release candidates are not stable: they get the exact version tag
+          # only, so no floating `9.0`/`9`/`latest` until 9.0.0 final ships.
+          - version: "9.0.0-rc.1"
+            dir: "v9"
+            trivy-ignore: "v9/9.0/.trivyignore"
+            extra-tags: ""
           - version: "8.2.1"
             dir: "v8"
             trivy-ignore: "v8/8.2/.trivyignore"
@@ -63,11 +69,6 @@ jobs:
               8.2
               8
               latest
-          - version: "8.1.0"
-            dir: "v8"
-            trivy-ignore: "v8/8.1/.trivyignore"
-            extra-tags: |
-              8.1
           - version: "8.0.9"
             dir: "v8"
             trivy-ignore: "v8/8.0/.trivyignore"
