@@ -1,1 +1,9 @@
 # CVEs baked into the oCIS 8.2 binary (Go dependencies). Unfixable by this repo — requires an upstream owncloud/ocis release. Empty at release time; add entries only when a CVE is later disclosed in this already-released line.
+
+# golang.org/x/net v0.59.0 (fixed in 0.60.0) — net/http2: DoS via excessive
+# HTTP/2 SETTINGS frames. Unlike stable-8.0, stable-8.2 still ships v0.59.0, so
+# it needs an upstream bump before the next 8.2.x release can clear this. Trivy
+# reports the same CVE twice, once for the x/net module and once for the Go
+# stdlib copy in net/http; only the module copy needs suppressing here, as the
+# stdlib copy is fixed by the Go 1.27.2 builder.
+CVE-2026-78669 exp:2026-11-30

@@ -21,10 +21,10 @@ docker run --rm \
 
 | Tag | oCIS Version |
 |-----|-------------|
-| `latest`, `8.2.0`, `8.2`, `8` | 8.2.0 (latest stable) |
-| `8.1.0`, `8.1` | 8.1.0 |
-| `8.0.7`, `8.0` | 8.0.7 |
-| `<version>-YYYYMMDD` | Immutable per-build tag (e.g. `8.2.0-20260819`) |
+| `latest`, `8.2.1`, `8.2`, `8` | 8.2.1 (latest stable) |
+| `8.0.9`, `8.0` | 8.0.9 |
+| `9.0.0-rc.1` | 9.0.0-rc.1 (release candidate, no floating tags) |
+| `<version>-YYYYMMDD` | Immutable per-build tag (e.g. `8.2.1-20260819`) |
 
 > **Note:** `latest` always points to the newest stable release. For production
 > deployments, pin a specific version tag instead.
