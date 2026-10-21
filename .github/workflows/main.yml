@@ -62,7 +62,7 @@ jobs:
             dir: "v9"
             trivy-ignore: "v9/9.0/.trivyignore"
             extra-tags: ""
-          - version: "8.2.1"
+          - version: "8.2.2"
             dir: "v8"
             trivy-ignore: "v8/8.2/.trivyignore"
             extra-tags: |
