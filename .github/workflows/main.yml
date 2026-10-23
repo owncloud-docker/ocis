@@ -58,7 +58,7 @@ jobs:
           # `latest` must always stay on the newest stable release entry.
           # Release candidates are not stable: they get the exact version tag
           # only, so no floating `9.0`/`9`/`latest` until 9.0.0 final ships.
-          - version: "9.0.0-rc.1"
+          - version: "9.0.0-rc.2"
             dir: "v9"
             trivy-ignore: "v9/9.0/.trivyignore"
             extra-tags: ""
