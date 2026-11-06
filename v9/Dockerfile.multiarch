@@ -1,4 +1,4 @@
-FROM docker.io/alpine:3.24.3@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a AS node-builder
+FROM docker.io/alpine:3.24.4@sha256:93b41ef40b1677fce8fcc64ff4af09daddfacf5040afde618bc46c1e2d1cc7d4 AS node-builder
 
 ARG VERSION="9.0.0-rc.1"
 ARG GIT_REF="v${VERSION}"
@@ -70,7 +70,7 @@ RUN CGO_ENABLED=1 ENABLE_VIPS=true \
     make release-linux-docker-${TARGETARCH} ${VERSION:+VERSION=${VERSION}}
 
 
-FROM docker.io/alpine:3.24.3@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a
+FROM docker.io/alpine:3.24.4@sha256:93b41ef40b1677fce8fcc64ff4af09daddfacf5040afde618bc46c1e2d1cc7d4
 
 ARG VERSION=""
 ARG REVISION=""
