@@ -1,7 +1,9 @@
 # CVEs baked into the oCIS 9.0 binary (Go dependencies). Unfixable by this repo — requires an upstream owncloud/ocis release. Empty at release time; add entries only when a CVE is later disclosed in this already-released line.
 
-# github.com/go-jose/go-jose/v4 v4.1.4 (fixed in 4.1.6) — go-jose: DoS via
-# crafted RSA parameters in JWKs. Disclosed after 9.0.0-rc.1 shipped, so the
-# released tag this image builds from cannot be changed. stable-9.0 already
-# ships v4.1.6, so this clears with the next 9.0.0 release candidate or final.
-CVE-2026-116587 exp:2026-12-31
+# github.com/go-jose/go-jose/v3 v3.0.5 — go-jose: DoS via crafted RSA parameters
+# in JWKs. 9.0.0-rc.2 bumped the /v4 module to v4.1.6, which clears that copy, but
+# the binary still vendors /v3 transitively via libregraph/lico (services/idp) and
+# no v3 fix exists upstream. lico parses JWKs only from local files and from
+# configured OIDC authorities, so it is not attacker-reachable here. Re-check when
+# lico moves to go-jose/v4.
+CVE-2026-116587 exp:2027-03-31
